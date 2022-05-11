@@ -1,0 +1,30 @@
+body{
+    background-color:#AAA;
+    height: 100vh;
+    margin: 0;
+}
+#game{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background-color:white;
+    border:0.5vmin solid #333;
+    height: 75vh;
+    aspect-ratio: 1;
+    display:grid;
+    grid-template-columns: repeat(var(--height),4.7vmin);
+    grid-template-rows: repeat(var(--width),4.7vmin);
+}
+.cell{
+    grid-column-start: var(--x);
+    grid-column-end: var(--x);
+    grid-row-start: var(--y);
+    grid-row-end: var(--y);
+}
+.snake{
+    background-color:black;
+}
+.fruit{
+    background-color:red;
+}
