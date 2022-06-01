@@ -1,4 +1,52 @@
-class Cell{
+import type { Game, Snake, } from "./index";
+import { game } from "./index";
+import { config } from "./config";
+
+export class Board{
+    parent:Game;
+    constructor(game:Game){
+        this.parent = game;
+    }
+    UpdateScore(){
+        const counter: HTMLElement = document.getElementById("counter") as HTMLElement;
+        counter.innerHTML = this.parent.points.toString();
+    }
+    Reset(){
+        const status: HTMLElement = document.getElementById("status") as HTMLElement;
+        const text: HTMLElement = document.getElementById("statustext") as HTMLElement;
+        const button: HTMLElement = document.getElementById("restartbutton") as HTMLElement;
+        status.style.opacity = "0";
+        text.innerHTML = "";
+        button.style.opacity = "0";
+        //this.parent.points = 0;
+        //this.parent.Reset();
+        this.UpdateScore();
+    }
+    GameOver(){
+        const status: HTMLElement = document.getElementById("status") as HTMLElement;
+        const statustext: HTMLElement = document.getElementById("statustext") as HTMLElement;
+        const pointstext: HTMLElement = document.getElementById("pointstext") as HTMLElement;
+        const button: HTMLElement = document.getElementById("restartbutton") as HTMLElement;
+        status.style.opacity = "100";
+        statustext.innerHTML = "Game Over";
+        pointstext.innerHTML = `Points: ${this.parent.points}`;
+        button.style.opacity = "100";
+    } 
+    Initialize(){
+
+        const snake:Snake = this.parent.snake; 
+        window.onkeydown = function(e){
+            snake.ChangeDirection(e);
+        };
+        const board: HTMLElement = document.getElementById("game") as HTMLElement;
+        board.style.setProperty("--width",config.width.toString());
+        board.style.setProperty("--height",config.height.toString());
+        //document.getElementById("restartbutton")?.addEventListener("click", this.Reset);
+        document.getElementById("restartbutton")?.addEventListener("click", this.parent.Reset);
+    }
+}
+
+export class Cell{
     x:number;
     y:number;
     type:string;
@@ -26,18 +74,5 @@ class Cell{
     }
     Delete(){
         this.cell.parentElement.removeChild(this.cell);
-    }
-}
-class Board{
-    width:number;
-    height:number;
-    game:any;
-
-    constructor(width:number,height:number){
-        this.width = width;
-        this.height = height;
-        this.game = document.getElementById("game");
-        this.game.style.setProperty("--width",width);
-        this.game.style.setProperty("--height",height);
     }
 }
